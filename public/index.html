@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>NodeJS+Stripe+Taxamo example</title>
+</head>
+<body>
+
+<button type="button" onclick="initPayment('product #1', 100);">
+Purchase product #1 for EUR <span class="price">100.00</span>
+</button>
+<hr/>
+<button type="button" onclick="initPayment('product #2', 130);">
+Purchase product #2 for EUR <span class="price">130.00</span>
+</button>
+
+<script type="text/javascript" src="http://localhost:3007/js/v1/taxamo.all.js"></script>
+<script>
+Taxamo.initialize('SamplePublicTestKey1');
+Taxamo.detectCountry();
+Taxamo.setCurrencyCode('EUR');
+Taxamo.scanPrices('.price');
+
+function initPayment(description, amount) {
+    var transaction = Taxamo.transaction()
+                                .currencyCode('EUR')
+                                .description(description)
+                                .transactionLine('line1') //first line
+                                  .amount(amount)
+                                  .description(description)
+                                  .done();
+          
+    Taxamo.doCheckout(
+        transaction,
+        'stripe',
+        function(data) { //success handler, you should place more complex logic here
+          var transaction_key = data.payment_result.key;
+          alert("Finished checkout:" + transaction_key);
+          location.href="/stripe?transaction_key=" + transaction_key;
+        },
+        {vat_number_field_hidden: false,
+         email_field_hidden: false,
+         email_field_optional: true,
+         custom_fields: [{key: "promo-code", value: "XWRWEREW"}],
+         skip_payment: true});
+    }
+</script>
+</body>
+</html>
