@@ -1,9 +1,31 @@
 taxamo-nodejs-example
 =====================
 
-Taxamo, Stripe and NodeJS (with express.js) integration example - simplistic approach to processing EU VAT compliant transactions using Stripe on node.js.
+Taxamo, Stripe and NodeJS integration example - simplistic approach to processing EU VAT compliant transactions using Stripe on node.js.
 
+Built using swagger.js and express.js.
 
+Usage
+=====================
+
+To run this example, clone the repository, then run:
+
+```
+$ npm install
+```
+
+This will install dependencies, next run:
+
+```
+$ node app.js
+```
+
+And navigate to http://localhost:3000 in your browser.
+
+Taxamo provisional tokens are used - as the example uses taxamo.js and Taxamo RESTful API, it is advised to update them with your own test tokens in index.html and app.js files.
+
+License
+=====================
 Copyright 2014 Taxamo, Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
