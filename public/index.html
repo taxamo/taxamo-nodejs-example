@@ -1,9 +1,12 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 <title>NodeJS+Stripe+Taxamo example</title>
 </head>
 <body>
 
+<!-- standard onclick event, triggers taxamo payment form -->
 <button type="button" onclick="initPayment('product #1', 100);">
 Purchase product #1 for EUR <span class="price">100.00</span>
 </button>
@@ -12,13 +15,21 @@ Purchase product #1 for EUR <span class="price">100.00</span>
 Purchase product #2 for EUR <span class="price">130.00</span>
 </button>
 
-<script type="text/javascript" src="http://localhost:3007/js/v1/taxamo.all.js"></script>
+<!-- load only taxamo.all.js - stripe.js is not necessary, as it is loaded by checkout iframe -->
+<script type="text/javascript" src="https://beta.taxamo.com/js/v1/taxamo.all.js"></script>
 <script>
+//public token, determines the mode
 Taxamo.initialize('SamplePublicTestKey1');
+//country detection - optional, displays country overlay.
 Taxamo.detectCountry();
+
+//scanning for prices - elements matching .price
 Taxamo.setCurrencyCode('EUR');
 Taxamo.scanPrices('.price');
 
+
+//please note that we are storing promotion code here (can be taken from a field on JS level) 
+//skip_payment: true allows us to complete the payment server-side - just like with Stripe
 function initPayment(description, amount) {
     var transaction = Taxamo.transaction()
                                 .currencyCode('EUR')

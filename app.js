@@ -1,6 +1,7 @@
 var express = require('express');
 var client = require('swagger-client');
 
+//use your private token here, since we're talking server-server
 client.authorizations.add("apiKey", new client.ApiKeyAuthorization("private_token", "SamplePrivateTestKey1", "query"));
 
 var app = express();
@@ -16,15 +17,16 @@ app.get('/stripe', function index(req, res){
         });
     });
 });
+
 app.use(express.static(__dirname + '/public'));
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.send(500, 'Something broke!');
 });
 
-
+//initialize the API with swagger.js client, and then start the server on port 3000
 var taxamo = new client.SwaggerApi({
-  url: 'http://localhost:3007/swagger',
+  url: 'https://beta.taxamo.com/swagger',
   success: function() {
     if(taxamo.ready === true) {
         var server = app.listen(3000, function() {
