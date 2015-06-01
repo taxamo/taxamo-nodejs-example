@@ -1,9 +1,6 @@
 var express = require('express');
 var client = require('swagger-client');
 
-//use your private token here, since we're talking server-server
-client.authorizations.add("apiKey", new client.ApiKeyAuthorization("private_token", "SamplePrivateTestKey1", "query"));
-
 var app = express();
 app.get('/stripe', function index(req, res){
     taxamo.apis.transactions.getTransaction({key: req.query.transaction_key}, function(data) {
@@ -35,3 +32,6 @@ var taxamo = new client.SwaggerApi({
     }
   }
 });
+
+//use your private token here, since we're talking server-server
+taxamo.clientAuthorizations.add('apiKey', new client.ApiKeyAuthorization('private_token', 'SamplePrivateTestKey1', 'query'));
