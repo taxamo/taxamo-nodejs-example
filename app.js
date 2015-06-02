@@ -22,6 +22,7 @@ app.use(function(err, req, res, next){
 });
 
 //initialize the API with swagger.js client, and then start the server on port 3000
+//for swagger-client 2.1.x it should be new client({
 var taxamo = new client.SwaggerApi({
   url: 'https://beta.taxamo.com/swagger',
   success: function() {
